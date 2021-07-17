@@ -85,8 +85,15 @@ main>article>header {
     color: #4f4f4f;
 }
 
-table.items > .date {
-    font-size: 16px;
+td.date {
+    font-family: 'Fira Sans', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 1em;
 }
 
 .blockquote {
