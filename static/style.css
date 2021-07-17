@@ -85,7 +85,7 @@ main>article>header {
     color: #4f4f4f;
 }
 
-td .date {
+table.items > .date {
     font-size: 16px;
 }
 
