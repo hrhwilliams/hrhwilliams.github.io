@@ -1,4 +1,122 @@
+body {
+    line-height: 1.75;
+    font-size: 18px;
+    background-color: #ffffff;
+    color: #0f0f0f;
+    margin: 0 auto;
+    max-width: 65em;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
 h1 {
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Buenard', serif;
+    font-weight: 700;
+    color: #0a0a0a;
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    color: #0a0a0a;
+}
+
+h3 {
+    font-family: 'IBM Plex Sans Condensed';
+    font-weight: 600;
+    font-size: 32px;
+}
+
+p {
+    font-family: 'Fira Sans', Arial, sans-serif;
+    font-weight: 400;
+}
+
+a {
+    font-family: 'Fira Sans', Arial, sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    color: #5295d1;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.footnoteRef {
+    color: #ff0000;
+}
+
+.footnotes {
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+
+p  { color: #0f0f0f; }
+
+body>header {
+    text-align: center;
+}
+
+body>header a {
+    font-family: 'Buenard', serif;
+    font-weight: 400;
+    font-size: 24px;
+    margin-right: 2rem;
+    margin-left:  2rem;
+}
+
+main {
+    padding: 1em;
+    margin: 0 auto;
+}
+
+main>article>header {
+    text-align: center;
+}
+
+.title {
+    font-size: 46px;
+}
+
+.date {
+    font-size: 24px;
+    color: #4f4f4f;
+}
+
+.blockquote {
+    font-family: 'Montserrat', serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #3f3f3f;
+    max-width: 35em;
+    margin: 0 auto;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.box {
+    margin: auto;
+    width: 90%;
+    padding: 1em;
+    border-color: #666bb0;
+    border-style: solid;
+    border-width: 2px;
+    background-color: #e6efff;
+}
+
+.boxtitle {
+    font-family: 'IBM Plex Sans Condensed';
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    background-color: #fcfcff;
+    border-color: #666bb0;
+    border-style: solid;
+    border-width: 1px;
 }
