@@ -51,8 +51,21 @@
             </header>
             <h1>Test</h1>
             lorem ipsum and stuff
-<pre><code class="language-python">def function(n):
-    return n != 4</code></pre>
+<pre><code class="language-python">def step(f, t_n, y_n, step_size):
+    return y_n + (step_size * f(t_n, y_n))
+
+
+def eulers_method(f, t_initial, y_initial, t_final):
+    step_size = 0.01
+    t, y = [t_initial], [y_initial]
+    t_n, y_n = t_initial, y_initial
+
+    while t_n &lt;= t_final:
+        t_n += step_size
+        y_n = step(f, t_n, y_n, step_size)
+        t.append(t_n)
+        y.append(y_n)
+    return t, y</code></pre>
             blah blah
         </article>
         </main>
