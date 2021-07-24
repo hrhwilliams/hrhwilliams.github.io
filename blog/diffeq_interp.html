@@ -49,6 +49,10 @@
                 <h1 class="title">An Interpreter for Differential Equations, Part 1</h1>
                 <h2 class="date">July 17, 2021</h2>
             </header>
+            <p>
+I think differential equations are neat. Many physical processes are modeled by
+them.
+            </p>
             <h1>Ordinary Differential Equations</h1>
             <p>
 To keep things simple, I’m only talking about ordinary differential equations
@@ -104,7 +108,7 @@ every ODE, so it would be nice if there was some algorithm that we could use to
 at most approximate a solution given an ODE. Fortunately Euler comes to the
 rescue like always, and so there's an algorithm for doing just that named after
 him. Given one initial point <span class="math inline">\((x_{0}, y_{0})\)</span>, the slope at that point is given
-exactly. Simply draw a straight line with that slope, advance a distance $h$, and
+exactly. Simply draw a straight line with that slope, advance a distance <span class="math inline">\(h\)</span>, and
 then evaluate the ODE at the point <span class="math inline">\((x_{0} + h, y(x_{0} + h))\)</span>.
             </p>
             <p>
@@ -124,7 +128,7 @@ equation:
 y(x + h) \approx y(x) + h\frac{\text{d}y}{\text{d}x}.
             \]</span>
             <p>
-or, substituting in $f(x, y(x))$,
+or, substituting in <span class="math inline">\(f(x, y(x))\)</span>,
             </p>
             <span class="math display">\[
 y(x + h) \approx y(x) + hf(x, y(x)).
@@ -132,6 +136,13 @@ y(x + h) \approx y(x) + hf(x, y(x)).
             <p>
 If each step <span class="math inline">\(h\)</span> is the same size, then we can make an inductive formula for
 solving for <span class="math inline">\(y(x)\)</span> starting from <span class="math inline">\((x_{0}, y_{0})\)</span>:
+            </p>
+            <span class="math display">\[\begin{aligned}
+&x_{n+1} = x_{n} + h \\
+&y_{n+1} = y_{n} + hf(x_{n}, y_{n}).
+            \end{aligned}\]</span>
+            <p>
+This is something we can code up.
             </p>
 
 <pre><code class="language-python">def step(f, t_n, y_n, step_size):
