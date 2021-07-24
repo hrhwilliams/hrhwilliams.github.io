@@ -95,7 +95,7 @@ initial equation, as
 -2x\left(ce^{-x^{2}}\right).
 \]</span>
 <p>
-Finding a particular solution, <i>i.e.</i>the solution <span class="math inline">\(y(x)\)</span>that goes
+Finding a particular solution, <i>i.e.</i> the solution <span class="math inline">\(y(x)\)</span>that goes
 through the point <span class="math inline">\((x, y(x))\)</span> involves specifying an initial value of the
 function at <span class="math inline">\(x\)</span> and solving for the constant. If you think of the ODE as itself a
 function of two variables,
@@ -175,10 +175,10 @@ def eulers_method(f, x_initial, y_initial, x_final):
 <p>
 Then, if we store the output in two arrays, we can use Pyplot to display the solution:
 </p>
-<pre><code class="language-python">def f(t, y):
-    return -2 * t * y
+<pre><code class="language-python">def f(x, y):
+    return -2 * x * y
 
-x, y = eulers_method(f, t_initial=-2.5, y_initial=0.01, t_final=2.5)
+x, y = eulers_method(f, x_initial=-2.5, y_initial=0.01, x_final=2.5)
 
 plt.plot(x, y, c='black')
 plt.grid(color='gray', linestyle=':', linewidth=1)
@@ -199,7 +199,7 @@ few initial conditions and an equation, and have the interpreter
 solve the equation and spit out a graph.
 
 Overall, what this entails is:
-
+</p>
 <ol>
 <li>Transforming a string of text into useful pieces.</li>
 
@@ -214,8 +214,18 @@ interpreted and used in something like the <code>eulers_method</code> method fro
     
 <li>Doing the actual numerical integration and returning a result.</li>
 </ol>
+<p>
+Step one is simple enough. We want to break up strings into tokens, which are in essence
+the smallest pieces of the string we care about for the purpose of understanding it. These
+tokens are things like numbers, letters as variables, symbols like plus, minus, equals, and
+most importantly the apostrophe to denote derivatives. A string like <code>y' = -2 * x * y</code>
+might look like, as an array of tokens, <code>[VAR, QUOTE, EQUALS, MINUS, NUM, STAR, VAR, STAR, VAR]</code>,
+abbreivating variable as <code>VAR</code> and number as <code>NUM</code>.
 </p>
-
+<p>
+The next step is much more involved. Now we want to create a grammar that relates these
+tokens to the structure of an equation which we want to evaluate.
+</p>
 <pre>
 stmt := term "=" term
 
