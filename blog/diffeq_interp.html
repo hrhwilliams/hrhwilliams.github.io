@@ -171,7 +171,12 @@ Then, if we store the output in two arrays, we can use Pyplot to display the sol
 <pre><code class="language-python">def f(t, y):
     return -2 * t * y
 
-x, y = eulers_method(f, t_initial=-2.5, y_initial=0.01, t_final=2.5)</code></pre>
+x, y = eulers_method(f, t_initial=-2.5, y_initial=0.01, t_final=2.5)
+
+plt.plot(x, y, c='black')
+plt.grid(color='gray', linestyle=':', linewidth=1)
+plt.show()</code></pre>
+
 <img src="/blog/images/diffeq_interp_solution.png" alt="Solution to the differential equation y'=-2xy">
 
 <h1>A Grammar for a Differential Equation</h1>
