@@ -269,8 +269,7 @@ The next step is much more involved. Now we want to create a grammar that relate
 tokens to the structure of an equation which we want to evaluate. There's a particular way
 to represent grammars called <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">Backus–Naur form</a>, or BNF.
 </p>
-<pre>
-stmt := term "=" term
+<pre><code class="language-plaintext">stmt := term "=" term
 
 term := factor (+, -) term
       | factor
@@ -281,8 +280,7 @@ factor := num (*, /) term
         | num
         | var
 
-num := (0,...,9)+
-</pre>
+num := (0,...,9)+</code></pre>
 
 
         </article>
