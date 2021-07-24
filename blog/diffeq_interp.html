@@ -49,12 +49,13 @@
                 <h1 class="title">An Interpreter for Differential Equations, Part 1</h1>
                 <h2 class="date">July 17, 2021</h2>
             </header>
-            <p>
+
+<p>
 I think differential equations are neat. Many physical processes are modeled by
 them.
-            </p>
-            <h1>Ordinary Differential Equations</h1>
-            <p>
+</p>
+<h1>Ordinary Differential Equations</h1>
+<p>
 To keep things simple, I’m only talking about ordinary differential equations
 (ODEs), which are differential equations of a single variable. An ordinary
 function of a single variable expresses a relation between one value and another,
@@ -65,44 +66,44 @@ of the function <span class="math inline">\(y(x)\)</span>, and for higher order 
 returns the slope at that point. I say ‘hypothetical’ because an ODE can have not
 just one function as its solution, but an entire family. For example, the family
 of solutions to the first-order ODE
-            </p>
-            <span class="math display">\[
+</p>
+<span class="math display">\[
 \frac{\text{d}y}{\text{d}x} = -2xy
-            \]</span>
-            <p>
+\]</span>
+<p>
 can be found by multiplying both sides by <span class="math inline">\(\text{d}x\)</span>, dividing by <span class="math inline">\(y\)</span>, and
 integrating:
-            </p>
-            <span class="math display">\[\begin{aligned}
+</p>
+<span class="math display">\[\begin{aligned}
 &\int \frac{\text{d}y}{y} = -\int 2x\,\text{d}x \\
 &\ln y = - x^{2} + c \\
 &y = e^{-x^{2} + c} \\
 &y = ce^{-x^{2}},
-            \end{aligned}\]</span>
-            <p>
+\end{aligned}\]</span>
+<p>
 and setting the constant <span class="math inline">\(c\)</span> to any number gives you a function that solves the
 initial equation, as
-            </p>
-            <span class="math display">\[
+</p>
+<span class="math display">\[
 \frac{\text{d}}{\text{d}x}\left(ce^{-x^{2}}\right) =
 -2x\left(ce^{-x^{2}}\right).
-            \]</span>
-            <p>
+\]</span>
+<p>
 Finding a particular solution, <i>i.e.</i>the solution <span class="math inline">\(y(x)\)</span>that goes
 through the point <span class="math inline">\((x, y(x))\)</span> involves specifying an initial value of the
 function at <span class="math inline">\(x\)</span> and solving for the constant. If you think of the ODE as itself a
 function of two variables,
-            </p>
-            <span class="math display">\[
+</p>
+<span class="math display">\[
 \frac{\text{d}y}{\text{d}x} = f(x, y(x)),
-            \]</span>
-            <p>
+\]</span>
+<p>
 then there’s a value at any point on the plane, just with the catch that the
 second variable is dependent on the first, so that once you pick a point, you are
 constrained to the curve given by <span class="math inline">\(y(x)\)</span>.
-            </p>
-            <h1>Euler’s Method</h1>
-            <p>
+</p>
+<h1>Euler’s Method</h1>
+<p>
 Finding the exact solution of ODEs is complicated, and not every method works for
 every ODE, so it would be nice if there was some algorithm that we could use to
 at most approximate a solution given an ODE. Fortunately Euler comes to the
@@ -110,40 +111,40 @@ rescue like always, and so there's an algorithm for doing just that named after
 him. Given one initial point <span class="math inline">\((x_{0}, y_{0})\)</span>, the slope at that point is given
 exactly. Simply draw a straight line with that slope, advance a distance <span class="math inline">\(h\)</span>, and
 then evaluate the ODE at the point <span class="math inline">\((x_{0} + h, y(x_{0} + h))\)</span>.
-            </p>
-            <p>
+</p>
+<p>
 Formally, this method of solving, or ‘integrating’, the ODE can be derived from
 the definition of the derivative. The derivative of a function can be
 approximated by evaluating it at two points a number <span class="math inline">\(h\)</span> apart,
-            </p>
-            <span class="math display">\[
+</p>
+<span class="math display">\[
 \frac{\text{d}y}{\text{d}x} \approx \frac{y(x + h) - y(x)}{h},
-            \]</span>
-            <p>
+\]</span>
+<p>
 and of course as <span class="math inline">\(h\)</span> approaches zero, the approximation gets better and better.
 This can be rearranged to give an iterative way of solving a differential
 equation:
-            </p>
-            <span class="math display">\[
+</p>
+<span class="math display">\[
 y(x + h) \approx y(x) + h\frac{\text{d}y}{\text{d}x}.
-            \]</span>
-            <p>
+\]</span>
+<p>
 or, substituting in <span class="math inline">\(f(x, y(x))\)</span>,
-            </p>
-            <span class="math display">\[
+</p>
+<span class="math display">\[
 y(x + h) \approx y(x) + hf(x, y(x)).
-            \]</span>
-            <p>
+\]</span>
+<p>
 If each step <span class="math inline">\(h\)</span> is the same size, then we can make an inductive formula for
 solving for <span class="math inline">\(y(x)\)</span> starting from <span class="math inline">\((x_{0}, y_{0})\)</span>:
-            </p>
-            <span class="math display">\[\begin{aligned}
+</p>
+<span class="math display">\[\begin{aligned}
 &x_{n+1} = x_{n} + h \\
 &y_{n+1} = y_{n} + hf(x_{n}, y_{n}).
-            \end{aligned}\]</span>
-            <p>
+\end{aligned}\]</span>
+<p>
 This is something we can code up.
-            </p>
+</p>
 
 <pre><code class="language-python">def step(f, t_n, y_n, step_size):
     return y_n + (step_size * f(t_n, y_n))
@@ -160,15 +161,16 @@ def eulers_method(f, t_initial, y_initial, t_final):
         t.append(t_n)
         y.append(y_n)
     return t, y</code></pre>
-
+<p>
 Then, if we store the output in two arrays, we can use Pyplot to display the solution:
+</p>
 <pre><code class="language-python">def f(t, y):
     return -2 * t * y
 
 x, y = eulers_method(f, t_initial=-2.5, y_initial=0.01, t_final=2.5)</code></pre>
 
 
-            blah blah
+<h1>A Grammar for a Differential Equation</h1>
 <pre>
 stmt := term "=" term
 
@@ -183,11 +185,8 @@ factor := num (*, /) term
 
 num := (0,...,9)+
 </pre>
-            
-<span class="math display">\[\begin{aligned}
-    \sin{x} &amp;= \lim_{k\to\infty}\sum_{n=0}^{k} \frac{(-1)^{n}x^{2n+1}}{(2n+1)!} = x - \frac{x^3}{3!} + \frac{x^5}{5!}-\frac{x^7}{7!} + \dots \\
-    \cos{x} &amp;= \lim_{k\to\infty}\sum_{n=0}^{k}\frac{(-1)^{n}x^{2n}}{(2n)!} = 1 - \frac{x^{2}}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} - \dots
-\end{aligned}\]</span>
+
+
         </article>
         </main>
     </body>
