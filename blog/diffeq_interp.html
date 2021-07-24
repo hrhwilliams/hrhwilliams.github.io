@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>An Interpreter for Differential Equations, Part 1</title>
+        <title>Writing A Differential Equation Interpreter, Part 1</title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,7 +46,7 @@
         <main>
         <article>
             <header>
-                <h1 class="title">An Interpreter for Differential Equations, Part 1</h1>
+                <h1 class="title">Writing A Differential Equation Interpreter, Part 1</h1>
                 <h2 class="date">July 17, 2021</h2>
             </header>
 
@@ -143,24 +143,28 @@ solving for <span class="math inline">\(y(x)\)</span> starting from <span class=
 &y_{n+1} = y_{n} + hf(x_{n}, y_{n}).
 \end{aligned}\]</span>
 <p>
-This is something we can code up.
+This is something we can code up in Python. We’ll create the function <code>step</code> to
+take the function at a point, and return a new point after following Euler’s
+method for a distance of <code>step_size</code>, and the function <code>eulers_method</code>
+to iteratively apply <code>step</code> given initial conditions <span class="math inline">\(x_0, y_0\)</span> up to
+a final value <span class="math inline">\(x_f\)</span>:
 </p>
 
-<pre><code class="language-python">def step(f, t_n, y_n, step_size):
-    return y_n + (step_size * f(t_n, y_n))
+<pre><code class="language-python">def step(f, x_n, y_n, step_size):
+    return y_n + (step_size * f(x_n, y_n))
 
 
-def eulers_method(f, t_initial, y_initial, t_final):
+def eulers_method(f, x_initial, y_initial, x_final):
     step_size = 0.01
-    t, y = [t_initial], [y_initial]
-    t_n, y_n = t_initial, y_initial
+    x, y = [x_initial], [y_initial]
+    x_n, y_n = x_initial, y_initial
 
-    while t_n &lt;= t_final:
-        t_n += step_size
-        y_n = step(f, t_n, y_n, step_size)
-        t.append(t_n)
+    while x_n &lt;= x_final:
+        x_n += step_size
+        y_n = step(f, x_n, y_n, step_size)
+        x.append(x_n)
         y.append(y_n)
-    return t, y</code></pre>
+    return x, y</code></pre>
 <p>
 Then, if we store the output in two arrays, we can use Pyplot to display the solution:
 </p>
