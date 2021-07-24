@@ -294,8 +294,22 @@ because it can continuously nest to the right until it terminates at a <code>NUM
 1 + (2 + (3 + expression))
 1 + (2 + expression)
 1 + expression
-expression
-</code></pre>
+expression</code></pre>
+<p>
+The way these BNF grammars evaluate strings can be represented as a tree, in a similar way to sentence
+diagrams:
+</p>
+<pre><code class="language-plaintext">+
+   / \
+  1   +
+     / \
+    2   +
+       / \
+      3   +
+         / \
+        4   +
+           / \
+          5   6</code></pre>
 <p>
 What would a grammar that can represent arithmetic with all four operators look like?
 We’ll have to write the new grammar in a slightly different way to preserve order of operations.
@@ -313,7 +327,8 @@ Then the <code>factor</code> gives us multiplication or division, or reduces dow
         | NUM ‘/’ term
         | NUM</code></pre>
 <p>
-This way, given an expression like <code>1 + 2 * 3</code>, 
+This way, an expression like <code>1 + 2 * 3</code> has the right side after the <code>+</code> matched by a
+factor
 </p>
 
         </article>
