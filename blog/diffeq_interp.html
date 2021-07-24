@@ -160,6 +160,14 @@ def eulers_method(f, t_initial, y_initial, t_final):
         t.append(t_n)
         y.append(y_n)
     return t, y</code></pre>
+
+Then, if we store the output in two arrays, we can use Pyplot to display the solution:
+<pre><code class="language-python">def f(t, y):
+    return -2 * t * y
+
+x, y = eulers_method(f, t_initial=-2.5, y_initial=0.01, t_final=2.5)</code></pre>
+
+
             blah blah
 <pre>
 stmt := term "=" term
