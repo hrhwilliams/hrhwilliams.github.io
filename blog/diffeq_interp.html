@@ -223,8 +223,51 @@ might look like, as an array of tokens, <code>[VAR, QUOTE, EQUALS, MINUS, NUM, S
 abbreivating variable as <code>VAR</code> and number as <code>NUM</code>.
 </p>
 <p>
+Now to implement something that does this transformation.
+We’ll create a data class called <code>Token</code> to store a token symbol such as <code>VAR</code>, as well as
+an optional value associated with the specific token, such as ‘y’, or for a <code>NUM</code> token, a value like
+2.1828. Now we begin looking through an input string character by character. Some tokens we can identify in a 
+single character, such as the symbols ‘+’, ‘-’, ‘*’, ‘/’, ‘=’, ‘'’. Others we’ll need to look ahead, like numbers or
+multi-character symbols. To keep things simple, variables will be limited to single characters, so there is no need
+to do look ahead for those.
+</p>
+<pre><code class="language-python">class Token:
+    def __init__(self, token, value=None):
+        self.token = token
+        self.value = value
+
+
+def tokenize(string):
+    tokens = []
+    i = 0
+    while True:
+        if i > len(string) - 1:
+            break
+        c = string[i]
+        if whitespace(c):
+            i += 1
+        elif number(c):
+            num, i = read_number(string, i)
+            tokens.append(Token('NUM', num))
+        elif variable(c):
+            tokens.append(Token('VAR', c))
+            i += 1
+        elif symbol(c):
+            tokens.append(Token(c))
+            i += 1
+        elif c == ':':
+            if i + 1 < len(string) and string[i + 1] == '=':
+                tokens.append(Token(':='))
+                i += 2
+            else:
+                raise RuntimeError('Expected :=')
+        else:
+            raise RuntimeError('Invalid token')
+    return tokens</pre></code>
+<p>
 The next step is much more involved. Now we want to create a grammar that relates these
-tokens to the structure of an equation which we want to evaluate.
+tokens to the structure of an equation which we want to evaluate. There's a particular way
+to represent grammars called <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">Backus–Naur form</a>, or BNF.
 </p>
 <pre>
 stmt := term "=" term
