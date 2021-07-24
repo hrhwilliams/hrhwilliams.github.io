@@ -52,16 +52,16 @@
             <h1>Test</h1>
                 <p>To keep things simple I'm only talking about ordinary differential equations (ODEs), 
                    which are differential equations of a single variable. An ordinary function of a single 
-                   variable expresses a relation between one value and another, <span class="math inline">y(x)</span>. Graphically, this 
-                   gives you a bunch of points <span class="math inline">(x, y(x))</span> that trace one curve. On the other hand, an ODE 
+                   variable expresses a relation between one value and another, <span class="math inline">\(y(x)\)</span>. Graphically, this 
+                   gives you a bunch of points <span class="math inline">\((x, y(x))\)</span> that trace one curve. On the other hand, an ODE 
                    often depends on both <span class="math inline">x</span> and the current value of the function <span class="math inline">y(x)</span>, and for higher 
                    order ODEs, one or more derivatives of <span class="math inline">y(x)</span>. Given the point <span class="math inline">(x, y(x))</span> for a 
                    hypothetical solution <span class="math inline">y(x)</span>, an ODE returns the slope at that point. I say `hypothetical' 
                    because an ODE can have not just one function as its solution, but an entire family. For 
                    example, the family of solutions to the first-order ODE</p>
-                <span class="math display">
+                <span class="math display">\[
                     \frac{\text{d}y}{\text{d}x} = -2xy
-                </span>
+                \]</span>
                 <p>can be found by multiplying both sides by <span class="math inline">$\text{d}x$</span>, dividing by <span class="math inline">$y$</span>, and integrating:
                 </p>
 <pre><code class="language-python">def step(f, t_n, y_n, step_size):
