@@ -42,6 +42,10 @@ ol {
     font-weight: 400;
 }
 
+pre>code {
+    font-size: 1em;
+}
+
 a {
     font-family: 'Fira Sans', Arial, sans-serif;
     font-weight: 400;
