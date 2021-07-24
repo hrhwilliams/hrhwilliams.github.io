@@ -311,17 +311,17 @@ diagrams:
            / \
           5   6</code></pre>
 <p>
-We can code this up
+We can code this up simply enough,
 </p>
 <pre><code class="language-python">def expression(tokens):
     current_token = tokens[0]
     if current_token == 'NUM':
-        if len(tokens) == 1:
+        if len(tokens) == 1:  # if there're no more tokens after, then accept
             return True
-        elif tokens[1] == '+' and len(tokens) &gt; 2:
-            return expression(tokens[2:])
+        elif tokens[1] == '+' and len(tokens) &gt; 2: # if the tokens follow the pattern 'NUM' '+',
+            return expression(tokens[2:])             # then accept and test what comes after the '+'
         else:
-            return False
+            return False  # otherwise the tokens don't match, so return false.
     return False</code></pre>
 
 <pre><code class="language-python-repl">&gt;&gt;&gt; expression(['NUM'])
@@ -329,7 +329,9 @@ True
 &gt;&gt;&gt; expression(['NUM', '+', 'NUM'])
 True
 &gt;&gt;&gt; expression(['NUM', '+', 'NUM', '+', 'NUM', '+', 'NUM'])
-True</code></pre>
+True
+&gt;&gt;&gt; expression(['NUM', '+'])
+False</code></pre>
 <p>
 What would a grammar that can represent arithmetic with all four operators look like?
 We’ll have to write the new grammar in a slightly different way to preserve order of operations,
