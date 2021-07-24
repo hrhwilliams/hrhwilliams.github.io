@@ -187,6 +187,35 @@ plt.show()</code></pre>
 <img src="/blog/images/diffeq_interp_solution.png" alt="Solution to the differential equation y'=-2xy">
 
 <h1>A Grammar for a Differential Equation</h1>
+<p>
+Believe it or not, the solving of the differential equations in
+this way was the easy part, at least programming-wise. As possibly
+complicated the math concept is, at the end of the day, it’s just
+a bunch of arithmetic that gives us what we want, a series of
+points from an initial point that approximate the solution to a
+certain differential equation. The hard part is what I wanted to
+do next, write an interpreter that would let a user just type in a
+few initial conditions and an equation, and have the interpreter
+solve the equation and spit out a graph.
+
+Overall, what this entails is:
+
+<table>
+<tr>Transforming a string of text into useful pieces.</tr>
+
+<tr>Making sure those pieces follow a certain ‘structure’, or grammar.</tr>
+
+<tr>Performing some algebraic transformations on the pieces if they aren’t
+in a certain expected form. (<i>e.g.</i> transforming <span class="math inline">\(y' - y = x\)</span>
+into <span class="math inline">\(y' = y + x\)</span> if the latter is easier to evaluate.)</tr>
+
+<tr>Assembling a function from those pieces that can actually be
+interpreted and used in something like the <code>eulers_method</code> method from before.</tr>
+    
+<tr>Doing the actual numerical integration and returning a result.</tr>
+</table>
+</p>
+
 <pre>
 stmt := term "=" term
 
