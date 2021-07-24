@@ -78,7 +78,7 @@ integrating:
             <p>
 and setting the constant <span class="math inline">\(c\)</span> to any number gives you a function that solves the
 initial equation, as
-            <\p>
+            </p>
             <span class="math display">\[
 \frac{\text{d}}{\text{d}x}\left(ce^{-x^{2}}\right) =
 -2x\left(ce^{-x^{2}}\right).
@@ -88,7 +88,7 @@ Finding a particular solution, <i>i.e.</i>the solution <span class="math inline"
 through the point <span class="math inline">\((x, y(x))\)</span> involves specifying an initial value of the
 function at <span class="math inline">\(x\)</span> and solving for the constant. If you think of the ODE as itself a
 function of two variables,
-            <\p>
+            </p>
             <span class="math display">\[
 \frac{\text{d}y}{\text{d}x} = f(x, y(x)),
             \]</span>
@@ -96,9 +96,43 @@ function of two variables,
 then there’s a value at any point on the plane, just with the catch that the
 second variable is dependent on the first, so that once you pick a point, you are
 constrained to the curve given by <span class="math inline">\(y(x)\)</span>.
-            <\p>
+            </p>
             <h1>Euler’s Method</h1>
-
+            <p>
+Finding the exact solution of ODEs is complicated, and not every method works for
+every ODE, so it would be nice if there was some algorithm that we could use to
+at most approximate a solution given an ODE. Fortunately Euler comes to the
+rescue like always, and so there's an algorithm for doing just that named after
+him. Given one initial point <span class="math inline">\((x_{0}, y_{0})\)</span>, the slope at that point is given
+exactly. Simply draw a straight line with that slope, advance a distance $h$, and
+then evaluate the ODE at the point <span class="math inline">\((x_{0} + h, y(x_{0} + h))\)</span>.
+            </p>
+            <p>
+Formally, this method of solving, or ‘integrating’, the ODE can be derived from
+the definition of the derivative. The derivative of a function can be
+approximated by evaluating it at two points a number <span class="math inline">\(h\)</span> apart,
+            </p>
+            <span class="math display">\[
+\frac{\text{d}y}{\text{d}x} \approx \frac{y(x + h) - y(x)}{h},
+            \]</span>
+            <p>
+and of course as <span class="math inline">\(h\)</span> approaches zero, the approximation gets better and better.
+This can be rearranged to give an iterative way of solving a differential
+equation:
+            </p>
+            <span class="math display">\[
+y(x + h) \approx y(x) + h\frac{\text{d}y}{\text{d}x}.
+            \]</span>
+            <p>
+or, substituting in $f(x, y(x))$,
+            </p>
+            <span class="math display">\[
+y(x + h) \approx y(x) + hf(x, y(x)).
+            \]</span>
+            <p>
+If each step <span class="math inline">\(h\)</span> is the same size, then we can make an inductive formula for
+solving for <span class="math inline">\(y(x)\)</span> starting from <span class="math inline">\((x_{0}, y_{0})\)</span>:
+            </p>
 
 <pre><code class="language-python">def step(f, t_n, y_n, step_size):
     return y_n + (step_size * f(t_n, y_n))
