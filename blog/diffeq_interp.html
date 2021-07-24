@@ -279,15 +279,24 @@ on the left, a plus sign, and a number on the right, then any string such as <co
 the string <code>2 - 1</code> does not, because the symbol <code>-</code> does not appear in the grammar anywhere.
 A grammar can be made more complex by introducing nonterminals. Nonterminals allow nesting of expressions in
 our grammar, and thus can recognize a much wider set of strings than the first example grammar. For instance,
-if we define an expression as <code>expression := NUM ‘+’ expression | NUM</code>, then <code>expression</code> is a nonterminal
-in our language. Given that <code>NUM</code> just represents any number token, then <code>NUM</code> is a terminal.
+if we define an expression as 
+<pre><code class="language-plaintext">expression := NUM ‘+’ expression | NUM</code></pre>
+then <code>expression</code> is a nonterminal
+in our language. Assuming that <code>NUM</code> just represents any number token, then <code>NUM</code> is a terminal.
 The bracket represents an <i>or</i> choice that the <code>expression</code> can either be a number plus another expression, or just a number.
-This grammar can recognize sentences such as <code>1</code>, <code>1 + 2</code>, <code>1 + 2 + 3 + 4 + 5 + 6</code>, and longer.
-
-</p>
-<p>
-First we define the nonterminals <code>term</code> and <code>factor</code>. These are called nonterminals
-because they 
+This grammar can recognize sentences such as <code>1</code>, <code>1 + 2</code>, <code>1 + 2 + 3 + 4 + 5 + 6</code>, and longer,
+because it can continuously nest to the right, as each of the subexpressions of <code>1 + 2 + 3 + 4 + 5 + 6</code> also satisfy the
+rules of the grammar:
+<pre><code class="language-plaintext">1 + (2 + 3 + 4 + 5 + 6)
+1 + (2 + (3 + 4 + 5 + 6))
+1 + (2 + (3 + (4 + 5 + 6)))
+1 + (2 + (3 + (4 + (5 + 6))))
+1 + (2 + (3 + (4 + expression)))
+1 + (2 + (3 + expression))
+1 + (2 + expression)
+1 + expression
+expression
+</code></pre>
 </p>
 <pre><code class="language-plaintext">term := factor ‘+’ term
       | factor ‘-’ term
