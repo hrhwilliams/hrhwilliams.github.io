@@ -32,6 +32,11 @@ p {
     font-weight: 400;
 }
 
+p>ul {
+    font-family: 'Fira Sans', Arial, sans-serif;
+    font-weight: 400;
+}
+
 a {
     font-family: 'Fira Sans', Arial, sans-serif;
     font-weight: 400;
