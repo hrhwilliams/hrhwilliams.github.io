@@ -256,7 +256,7 @@ def tokenize(string):
             tokens.append(Token(c))
             i += 1
         elif c == ':':
-            if i + 1 < len(string) and string[i + 1] == '=':
+            if i + 1 &lt; len(string) and string[i + 1] == '=':
                 tokens.append(Token(':='))
                 i += 2
             else:
@@ -267,20 +267,37 @@ def tokenize(string):
 <p>
 The next step is much more involved. Now we want to create a grammar that relates these
 tokens to the structure of an equation which we want to evaluate. There's a particular way
-to represent grammars called <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">Backus–Naur form</a>, or BNF.
+to represent grammars called <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">Backus–Naur form</a> (BNF).
+Backus–Naur form lets us specify the rules of how elements of our grammar should fit together, which we can
+then use to check if some sentence is correct in our grammar or not. A simple example is a grammar that
+accepts simple expressions such as <code>1 + 2 * 3</code>, <code>3 + 4 * 1 - 2</code>, and so on.
 </p>
-<pre><code class="language-plaintext">stmt := term "=" term
+<p>
+A grammar checks if a sentence is correct by going through a stream of tokens and checking whether or not
+they fit any rules in the grammar. For instance, if our grammar is extremely simple, just matching a number
+on the left, a plus sign, and a number on the right, then any string such as <code>1 + 2</code> passes, but
+the string <code>2 - 1</code> does not, because the symbol <code>-</code> does not appear in the grammar anywhere.
+A grammar can be made more complex by introducing nonterminals. Nonterminals allow nesting of expressions in
+our grammar, and thus can recognize a much wider set of strings than the first example grammar. For instance,
+if we define an expression as <code>expression := NUM ‘+’ expression | NUM</code>, then <code>expression</code> is a nonterminal
+in our language. Given that <code>NUM</code> just represents any number token, then <code>NUM</code> is a terminal.
+The bracket represents an <i>or</i> choice that the <code>expression</code> can either be a number plus another expression, or just a number.
+This grammar can recognize sentences such as <code>1</code>, <code>1 + 2</code>, <code>1 + 2 + 3 + 4 + 5 + 6</code>, and longer.
 
-term := factor (+, -) term
+</p>
+<p>
+First we define the nonterminals <code>term</code> and <code>factor</code>. These are called nonterminals
+because they 
+</p>
+<pre><code class="language-plaintext">term := factor ‘+’ term
+      | factor ‘-’ term
       | factor
 
-factor := num (*, /) term
-        | "(" term ")" (*, /) term
-        | "(" term ")"
-        | num
-        | var
+factor := NUM ‘*’ term
+        | NUM ‘/’ term
+        | NUM
 
-num := (0,...,9)+</code></pre>
+NUM := (‘0’, ‘1’, ..., ‘9’)+</code></pre>
 
 
         </article>
