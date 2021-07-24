@@ -67,6 +67,11 @@ def eulers_method(f, t_initial, y_initial, t_final):
         y.append(y_n)
     return t, y</code></pre>
             blah blah
+            
+<span class="math display">\[\begin{aligned}
+    \sin{x} &amp;= \lim_{k\to\infty}\sum_{n=0}^{k} \frac{(-1)^{n}x^{2n+1}}{(2n+1)!} = x - \frac{x^3}{3!} + \frac{x^5}{5!}-\frac{x^7}{7!} + \dots \\
+    \cos{x} &amp;= \lim_{k\to\infty}\sum_{n=0}^{k}\frac{(-1)^{n}x^{2n}}{(2n)!} = 1 - \frac{x^{2}}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} - \dots
+\end{aligned}\]</span>
         </article>
         </main>
     </body>
