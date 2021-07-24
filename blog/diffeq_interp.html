@@ -49,21 +49,57 @@
                 <h1 class="title">An Interpreter for Differential Equations, Part 1</h1>
                 <h2 class="date">July 17, 2021</h2>
             </header>
-            <h1>Test</h1>
-                <p>To keep things simple I'm only talking about ordinary differential equations (ODEs), 
-                   which are differential equations of a single variable. An ordinary function of a single 
-                   variable expresses a relation between one value and another, <span class="math inline">\(y(x)\)</span>. Graphically, this 
-                   gives you a bunch of points <span class="math inline">\((x, y(x))\)</span> that trace one curve. On the other hand, an ODE 
-                   often depends on both <span class="math inline">x</span> and the current value of the function <span class="math inline">y(x)</span>, and for higher 
-                   order ODEs, one or more derivatives of <span class="math inline">y(x)</span>. Given the point <span class="math inline">(x, y(x))</span> for a 
-                   hypothetical solution <span class="math inline">y(x)</span>, an ODE returns the slope at that point. I say `hypothetical' 
-                   because an ODE can have not just one function as its solution, but an entire family. For 
-                   example, the family of solutions to the first-order ODE</p>
-                <span class="math display">\[
-                    \frac{\text{d}y}{\text{d}x} = -2xy
-                \]</span>
-                <p>can be found by multiplying both sides by <span class="math inline">$\text{d}x$</span>, dividing by <span class="math inline">$y$</span>, and integrating:
-                </p>
+            <h1>Ordinary Differential Equations</h1>
+            <p>
+To keep things simple, I’m only talking about ordinary differential equations
+(ODEs), which are differential equations of a single variable. An ordinary
+function of a single variable expresses a relation between one value and another,
+$y(x)$. Graphically, this gives you a bunch of points $(x, y(x))$ that trace one
+curve. On the other hand, an ODE often depends on both $x$ and the current value
+of the function $y(x)$, and for higher order ODEs, one or more derivatives of
+$y(x)$. Given the point $(x, y(x))$ for a hypothetical solution $y(x)$, an ODE
+returns the slope at that point. I say ‘hypothetical’ because an ODE can have not
+just one function as its solution, but an entire family. For example, the family
+of solutions to the first-order ODE
+            </p>
+            <span class="math display">\[
+\frac{\text{d}y}{\text{d}x} = -2xy
+            \]</span>
+            <p>
+can be found by multiplying both sides by $\text{d}x$, dividing by $y$, and
+integrating:
+            </p>
+            <span class="math display">\[\begin{aligned}
+&\int \frac{\text{d}y}{y} = -\int 2x\,\text{d}x \\
+&\ln y = - x^{2} + c \\
+&y = e^{-x^{2} + c} \\
+&y = ce^{-x^{2}},
+            \end{aligned}\]</span>
+            <p>
+and setting the constant <span class="math inline">\(c\)<\span> to any number gives you a function that solves the
+initial equation, as
+            <\p>
+            <span class="math display">\[
+\frac{\text{d}}{\text{d}x}\left(ce^{-x^{2}}\right) =
+-2x\left(ce^{-x^{2}}\right).
+            \]</span>
+            <p>
+Finding a particular solution, <i>i.e.<\i> the solution $y(x)$ that goes
+through the point $(x, y(x))$ involves specifying an initial value of the
+function at $x$ and solving for the constant. If you think of the ODE as itself a
+function of two variables,
+            <\p>
+            <span class="math display">\[
+\frac{\text{d}y}{\text{d}x} = f(x, y(x)),
+            \]</span>
+            <p>
+then there’s a value at any point on the plane, just with the catch that the
+second variable is dependent on the first, so that once you pick a point, you are
+constrained to the curve given by $y(x)$.
+            <\p>
+            <h1>Euler’s Method</h1>
+
+
 <pre><code class="language-python">def step(f, t_n, y_n, step_size):
     return y_n + (step_size * f(t_n, y_n))
 
