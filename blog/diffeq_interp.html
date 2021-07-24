@@ -313,22 +313,22 @@ diagrams:
 <p>
 We can code this up
 </p>
-<pre><code class="language-python"></code>def expression(tokens):
+<pre><code class="language-python">def expression(tokens):
     current_token = tokens[0]
     if current_token == 'NUM':
         if len(tokens) == 1:
             return True
-        elif tokens[1] == '+' and len(tokens) > 2:
+        elif tokens[1] == '+' and len(tokens) &gt; 2:
             return expression(tokens[2:])
         else:
             return False
     return False</code></pre>
 
-<pre><code class="language-python-repl"></code>>>> expression(['NUM'])
+<pre><code class="language-python-repl">&gt;&gt;&gt; expression(['NUM'])
 True
->>> expression(['NUM', '+', 'NUM'])
+&gt;&gt;&gt; expression(['NUM', '+', 'NUM'])
 True
->>> expression(['NUM', '+', 'NUM', '+', 'NUM', '+', 'NUM'])
+&gt;&gt;&gt; expression(['NUM', '+', 'NUM', '+', 'NUM', '+', 'NUM'])
 True</code></pre>
 <p>
 What would a grammar that can represent arithmetic with all four operators look like?
