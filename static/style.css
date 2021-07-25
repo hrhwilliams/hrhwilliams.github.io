@@ -4,7 +4,7 @@ body {
     background-color: #ffffff;
     color: #0f0f0f;
     margin: 0 auto;
-    max-width: 65em;
+    max-width: 64em;
     text-align: justify;
     text-justify: inter-word;
 }
@@ -12,21 +12,21 @@ body {
 h1 {
     font-family: 'Buenard', serif;
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.6em;
     color: #0a0a0a;
 }
 
 h2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-size: 1.25em;
+    font-size: 1.3em;
     color: #0a0a0a;
 }
 
 h3 {
     font-family: 'IBM Plex Sans Condensed';
     font-weight: 600;
-    font-size: 32px;
+    font-size: 1.2em;
 }
 
 p {
