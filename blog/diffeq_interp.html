@@ -222,6 +222,7 @@ most importantly the apostrophe to denote derivatives. A string like <code>y' = 
 might look like, as an array of tokens, <code>[VAR, QUOTE, EQUALS, MINUS, NUM, STAR, VAR, STAR, VAR]</code>,
 abbreivating variable as <code>VAR</code> and number as <code>NUM</code>.
 </p>
+<h2>Tokenizing</h2>
 <p>
 Now to implement something that does this transformation.
 We’ll create a data class called <code>Token</code> to store a token symbol such as <code>VAR</code>, as well as
@@ -272,6 +273,7 @@ Backus–Naur form lets us specify the rules of how elements of our grammar shou
 then use to check if some sentence is correct in our grammar or not. A simple example is a grammar that
 accepts simple expressions such as <code>1 + 2 * 3</code>, <code>3 + 4 * 1 - 2</code>, and so on.
 </p>
+<h2>Parsing</h2>
 <p>
 A grammar checks if a sentence is correct by going through a stream of tokens and checking whether or not
 they fit any rules in the grammar. For instance, if our grammar is extremely simple, just matching a number
@@ -354,7 +356,7 @@ new tree
 and from there the process would repeat until the top node was evaluated. If we define a <code>Node</code> class
 to act as a node of a binary tree, we can create a function to build this interpretation tree:
 </p>
-<pre><code class="language-python">class Node:
+<pre><code class="language-python"></code>class Node:
     def __init__(self, label=None, parent=None, left=None, right=None):
         self.label  = label
         self.left   = left
@@ -388,7 +390,7 @@ pops two values from the stack and pushes a node back onto the stack.
         if t.token == 'NUM' or t.token == 'VAR':
             stack.append(t)
         else:
-            if len(stack) < 2:
+            if len(stack) &lt; 2:
                 raise RuntimeError('Stack underflow.')
             new_node = Node(label=t)
             right = stack.pop()
