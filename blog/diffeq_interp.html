@@ -306,8 +306,8 @@ the grammar, or <code>False</code> otherwise:
     if current_token == 'NUM':
         if len(tokens) == 1:  # if there're no more tokens after matching 'NUM', then accept
             return True
-        elif tokens[1] == '+' and len(tokens) &gt; 2:    # if the tokens follow the pattern 'NUM' '+',
-            return expression(tokens[2:])             # then test what comes after the '+'
+        elif tokens[1] == '+' and len(tokens) &gt; 2: # if the tokens follow the pattern 'NUM' '+',
+            return expression(tokens[2:])          # then test what comes after the '+'
         else:
             return False  # otherwise the tokens don't match, so return false.
     return False</code></pre>
@@ -356,7 +356,7 @@ new tree
 and from there the process would repeat until the top node was evaluated. If we define a <code>Node</code> class
 to act as a node of a binary tree, we can create a function to build this interpretation tree:
 </p>
-<pre><code class="language-python"></code>class Node:
+<pre><code class="language-python">class Node:
     def __init__(self, label=None, parent=None, left=None, right=None):
         self.label  = label
         self.left   = left
