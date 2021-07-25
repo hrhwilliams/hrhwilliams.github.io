@@ -296,6 +296,29 @@ because it can continuously nest to the right until it terminates at a <code>NUM
 1 + expression
 expression</code></pre>
 <p>
+We can code up a function that takes an array of tokens and returns <code>True</code> if the tokens match
+the grammar, or <code>False</code> otherwise:
+</p>
+<pre><code class="language-python">def expression(tokens):
+    current_token = tokens[0]
+    if current_token == 'NUM':
+        if len(tokens) == 1:  # if there're no more tokens after matching 'NUM', then accept
+            return True
+        elif tokens[1] == '+' and len(tokens) &gt; 2:    # if the tokens follow the pattern 'NUM' '+',
+            return expression(tokens[2:])             # then test what comes after the '+'
+        else:
+            return False  # otherwise the tokens don't match, so return false.
+    return False</code></pre>
+
+<pre><code class="language-python-repl">&gt;&gt;&gt; expression(['NUM'])
+True
+&gt;&gt;&gt; expression(['NUM', '+', 'NUM'])
+True
+&gt;&gt;&gt; expression(['NUM', '+', 'NUM', '+', 'NUM', '+', 'NUM'])
+True
+&gt;&gt;&gt; expression(['NUM', '+'])
+False</code></pre>
+<p>
 The way these BNF grammars evaluate strings can be represented as a tree, in a similar way to sentence
 diagrams:
 </p>
@@ -311,27 +334,78 @@ diagrams:
            / \
           5   6</code></pre>
 <p>
-We can code this up simply enough,
+In fact, the way we’ll be interpreting these expressions will necessitate building a tree,
+which we can evaluate from the bottom up. Numbers will evaluate to their own value, and <code>+</code>
+will evaluate as the sum of its left and right children. The tree above could be interpreted by
+going all the way to the bottom, having <code>5</code> and <code>6</code> evaluate to themselves,
+and then stepping up, the <code>+</code> would be interpreted as <code>5+6</code> and result in the
+new tree
 </p>
-<pre><code class="language-python">def expression(tokens):
+<pre><code class="language-plaintext">    +
+    / \
+   1   +
+      / \
+     2   +
+        / \
+       3   +
+          / \
+         4   11</code></pre>
+<p>
+and from there the process would repeat until the top node was evaluated. If we define a <code>Node</code> class
+to act as a node of a binary tree, we can create a function to build this interpretation tree:
+</p>
+<pre><code class="language-python"></code>class Node:
+    def __init__(self, label=None, parent=None, left=None, right=None):
+        self.label  = label
+        self.left   = left
+        self.right  = right</code></pre>
+<p>
+Using the <code>Token</code> class defined earlier now, we modify our <code>expression</code>> function to take
+an array of <code>Token</code>s and return them in a stack in Reverse Polish Notation (RPN). This is helpful
+because RPN is more explicit about operator precedence than infix notation, and because it is easier to build
+the tree from this stack than it is to build it in place.
+</p>
+<pre><code class="language-python">def expression(tokens, stack=None):
+    if stack is None:
+        stack = []
+    if len(tokens) == 0:
+        return
     current_token = tokens[0]
-    if current_token == 'NUM':
-        if len(tokens) == 1:  # if there're no more tokens after, then accept
-            return True
-        elif tokens[1] == '+' and len(tokens) &gt; 2: # if the tokens follow the pattern 'NUM' '+',
-            return expression(tokens[2:])             # then accept and test what comes after the '+'
+    if current_token.token == 'NUM':
+        stack.append(current_token)
+        expression(tokens[1:], stack)
+    elif current_token.token == '+':
+        expression(tokens[1:], stack)
+        stack.append(current_token)
+    return stack</code></pre>
+<p>
+Now, reading the tokens rearranged into RPN, each number is placed into an internal stack, and each <code>+</code>
+pops two values from the stack and pushes a node back onto the stack.
+</p>
+<pre><code class="language-python">def build_ast(tokens):
+    stack = []
+    for t in tokens:
+        if t.token == 'NUM' or t.token == 'VAR':
+            stack.append(t)
         else:
-            return False  # otherwise the tokens don't match, so return false.
-    return False</code></pre>
-
-<pre><code class="language-python-repl">&gt;&gt;&gt; expression(['NUM'])
-True
-&gt;&gt;&gt; expression(['NUM', '+', 'NUM'])
-True
-&gt;&gt;&gt; expression(['NUM', '+', 'NUM', '+', 'NUM', '+', 'NUM'])
-True
-&gt;&gt;&gt; expression(['NUM', '+'])
-False</code></pre>
+            if len(stack) < 2:
+                raise RuntimeError('Stack underflow.')
+            new_node = Node(label=t)
+            right = stack.pop()
+            left = stack.pop()
+            if isinstance(left, Node):
+                new_node.left = left
+            else:
+                new_node.left = Node(label=left)
+            if isinstance(right, Node):
+                new_node.right = right
+            else:
+                new_node.right = Node(label=right)
+            stack.append(new_node)
+    if len(stack) == 1:
+        return stack.pop()
+    else:
+        raise RuntimeError('Tree unbuilt on stack.')</code></pre>
 <p>
 What would a grammar that can represent arithmetic with all four operators look like?
 We’ll have to write the new grammar in a slightly different way to preserve order of operations,
