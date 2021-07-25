@@ -354,7 +354,7 @@ new tree
 and from there the process would repeat until the top node was evaluated. If we define a <code>Node</code> class
 to act as a node of a binary tree, we can create a function to build this interpretation tree:
 </p>
-<pre><code class="language-python"></code>class Node:
+<pre><code class="language-python">class Node:
     def __init__(self, label=None, parent=None, left=None, right=None):
         self.label  = label
         self.left   = left
