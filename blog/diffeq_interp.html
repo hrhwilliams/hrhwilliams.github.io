@@ -153,8 +153,10 @@ plt.grid(color='gray', linestyle=':', linewidth=1)
 plt.show()</code></pre>
 
 <img src="/blog/images/diffeq_interp_solution.png" alt="Solution to the differential equation y'=-2xy">
-
-<h1>A Grammar for a Differential Equation</h1>
+<p>
+And this works for now, but it requires the user to define a function and run it within Python. It even requires the user to format the equation in a specific way, with the derivative appearing on its own on the left, and everything else on the right. The ODE <span class="math inline">\(y' = x + y\)</span> is just as valid written as <span class="math inline">\(y' - x = y\)</span>. To fix both of these problems, the next step is to make a way to input functions like these as strings, and to allow the computer to rearrange the functions it’s given in any way it sees fit.
+</p>
+<h1>Getting Input</h1>
 <p>
 Believe it or not, the solving of the differential equations in
 this way was the easy part, at least programming-wise. As possibly
@@ -179,7 +181,7 @@ into <span class="math inline">\(y' = y + x\)</span> if the latter is easier to 
 
 <li>Assembling a function from those pieces that can actually be
 interpreted and used in something like the <code>eulers_method</code> method from before.</li>
-    
+
 <li>Doing the actual numerical integration and returning a result.</li>
 </ol>
 <p>
