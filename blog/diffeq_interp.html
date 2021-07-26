@@ -101,7 +101,9 @@ This method of numerical integration was invented by Euler. It can be derived fr
 <span class="math display">\[
 \frac{\text{d}y}{\text{d}x} \approx \frac{y(x + h) - y(x)}{h},
 \]</span>
-Where <span class="math inline">\(h\)</span> is a small distance that approaches zero, thus making the approximation more and more precise. Rearranging and substituting <span class="math inline">\(f(x, y(x))\)</span> for <span class="math inline">\(y'\)</span>,
+<p>
+where <span class="math inline">\(h\)</span> is a small distance that approaches zero, thus making the approximation more and more precise. Rearranging and substituting <span class="math inline">\(f(x, y(x))\)</span> for <span class="math inline">\(y'\)</span>,
+</p>
 <span class="math display">\[
 y(x + h) \approx y(x) + hf(x, y(x)).
 \]</span>
@@ -113,7 +115,15 @@ Thus we can find the value of <span class="math inline">\(y(x+h)\)</span> from a
 &y_{n+1} = y_{n} + hf(x_{n}, y_{n}).
 \end{aligned}\]</span>
 <p>
-Computers are much better at iterating over values than they are at applying one of many methods to an equation to find a set of solutions. In Python, we create a function for finding the next value <span class="math inline">\((x_{n+1}, y_{n+1})\)</span> from <span class="math inline">\(x_{n}, y_{n}\)</span>, <span class="math inline">\(f\)</span>, and the step size <span class="math inline">\(h\)</span>.
+As a simple example, we will use this method to numerically integrate over the ODE <span class="math inline">\(y' = y\)</span>. Its exact solution is <span class="math inline">\(e^{x}\)</span>, which we can compare to the values given by Euler’s method. Starting from the initial conditions <span class="math inline">\((x_{0}, y_{0}) = (0, 1)\)</span>, and using a step size of 0.5,
+</p>
+<img src="/blog/images/eulers_method.png" alt="Example of using Euler's method to solve y' = y">
+<p>
+We can see that the numerical solution rapidly diverges from the exact solution. This can be remedied by using a smaller step size, or methods that are smarter about how they sample the slope of the equation. For now, we increase the step size to 0.1:
+</p>
+<img src="/blog/images/eulers_method2.png" alt="Example of using Euler's method to solve y' = y with smaller step size">
+<p>
+Implementing this in practice, we would use even smaller step sizes to minimize the error further. Computers are much better at iterating over values than they are at applying one of many methods to an equation to find a set of solutions. In Python, we create a function for finding the next value <span class="math inline">\((x_{n+1}, y_{n+1})\)</span> from <span class="math inline">\(x_{n}, y_{n}\)</span>, <span class="math inline">\(f\)</span>, and the step size <span class="math inline">\(h\)</span>.
 </p>
 <pre><code class="language-python">def eulers_method(f, x_n, y_n, step_size):
     return x_n, y_n + step_size * f(x_n, y_n)</code></pre>
