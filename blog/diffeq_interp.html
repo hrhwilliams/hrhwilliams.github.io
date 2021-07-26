@@ -91,7 +91,7 @@ The constant term <span class="math inline">\(c\)</span> means that technically 
 <p>
 Finding a particular solution to an <span class="math inline">\(n\)</span>th order ODE involves finding one of this family of functions that satisfies an initial condition given by <span class="math inline">\((x_{0}, y_{0}, y'_{0},\dots, y^{\left(n-1\right)}_{0})\)</span>. Thinking of just a first order ODE for now, this implies finding the curve that passes through the point on the plane <span class="math inline">\((x_{0}, y_{0})\)</span>.
 </p>
-<h1>Euler’s Method</h1>
+<h2>Euler’s Method</h2>
 <p>
 Finding the exact set of solutions to an ODE as we just did is complicated; there is no method that works for every ODE of any order. If we want to find an algorithm to numerically integrate any ODE we desire, we will have to find some method that can at least approximate a solution. First, we make the observation that plugging in the point <span class="math inline">\((x_{0}, y_{0})\)</span> into the equation <span class="math inline">\(y'(x) = f(x, y(x))\)</span> gives the ‘slope’ at that point. The simplest way to approximate the curve <span class="math inline">\(y(x)\)</span> from this information would be to draw a line from that point with the slope given by the function for some distance <span class="math inline">\(h\)</span> along the <span class="math inline">\(x\)</span>-axis, find the slope at the new point, and then repeat this process for as long as we like.
 </p>
@@ -151,12 +151,12 @@ x, y = solve(f, x_initial=-2.5, y_initial=0.01, x_final=2.5)
 plt.plot(x, y, c='black')
 plt.grid(color='gray', linestyle=':', linewidth=1)
 plt.show()</code></pre>
-
 <img src="/blog/images/diffeq_interp_solution.png" alt="Solution to the differential equation y'=-2xy">
 <p>
 And this works for now, but it requires the user to define a function and run it within Python. It even requires the user to format the equation in a specific way, with the derivative appearing on its own on the left, and everything else on the right. The ODE <span class="math inline">\(y' = x + y\)</span> is just as valid written as <span class="math inline">\(y' - x = y\)</span>. To fix both of these problems, the next step is to make a way to input functions like these as strings, and to allow the computer to rearrange the functions it’s given in any way it sees fit.
 </p>
-<h1>Getting Input</h1>
+
+<h1>Inputting and Interpreting Equations</h1>
 <p>
 Believe it or not, the solving of the differential equations in
 this way was the easy part, at least programming-wise. As possibly
@@ -352,7 +352,7 @@ the tree from this stack than it is to build it in place.
     return stack</code></pre>
 <p>
 Now, reading the tokens rearranged into RPN, each number is placed into an internal stack, and each <code>+</code>
-pops two values from the stack and pushes a node back onto the stack.
+pops two values from the stack and pushes a node back onto the stack, building up the abstract syntax tree.
 </p>
 <pre><code class="language-python">def build_ast(tokens):
     stack = []
@@ -379,34 +379,27 @@ pops two values from the stack and pushes a node back onto the stack.
     else:
         raise RuntimeError('Tree unbuilt on stack.')</code></pre>
 <p>
-What would a grammar that can represent arithmetic with all four operators look like?
-We’ll have to write the new grammar in a slightly different way to preserve order of operations,
-so that a sentence like <code>1 + 2 * 3</code> is evaluated as
+The last thing to do is evaluate the abstract syntax tree. We can do this by walking the tree, and if the value of the tree at a node is a number, returning the number, otherwise if it is a sum, returning the sum of the left and right nodes recursively.
 </p>
-<pre><code class="language-plaintext">correct:    incorrect:
-    +               *
-   / \             / \
-  1   *           +   3
-     / \         / \
-    2   3       1   2</code></pre>
-<p>
-We define a <code>term</code> that represents addition and subtraction, and a <code>factor</code> that
-represents multiplication and division. In our definition for <code>term</code>, we match a factor on the
-left of the plus or minus symbol so that the factor has matching priority over the term.
-</p>
-<pre><code class="language-plaintext">term := factor ‘+’ term
-      | factor ‘-’ term
-      | factor</code></pre>
-<p>
-Then the <code>factor</code> gives us multiplication or division, or reduces down to a bare <code>NUM</code>.
-</p>
-<pre><code class="language-plaintext">factor := NUM ‘*’ term
-        | NUM ‘/’ term
-        | NUM</code></pre>
-<p>
-This way, an expression like <code>1 + 2 * 3</code> has the right side after the <code>+</code> matched by a
-factor
-</p>
+<pre><code class="language-python">def eval_tree(tree):
+    token = tree.label.token
+        if token == 'NUM':
+            return tree.label.value
+        elif token == '+':
+            return eval_tree(tree.left) + eval_tree(tree.right)</code></pre>
+
+
+<pre><code class="language-python-repl">&gt;&gt;&gt; t = build_ast(expression([Token('NUM', 1), Token('+'), Token('NUM', 2), Token('+'), Token('NUM', 3)]))
+&gt;&gt;&gt;print_tree(t)
+(+, None)
+  (NUM, 1)
+  (+, None)
+    (NUM, 2)
+    (NUM, 3)
+&gt;&gt;&gt;eval_tree(t)
+6</code></pre>
+
+
 
         </article>
         </main>
