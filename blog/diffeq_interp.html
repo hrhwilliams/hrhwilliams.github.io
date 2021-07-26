@@ -390,17 +390,17 @@ The last thing to do is evaluate the abstract syntax tree. We can do this by wal
 
 
 <pre><code class="language-python-repl">&gt;&gt;&gt; t = build_ast(expression([Token('NUM', 1), Token('+'), Token('NUM', 2), Token('+'), Token('NUM', 3)]))
-&gt;&gt;&gt;print_tree(t)
+&gt;&gt;&gt; print_tree(t)
 (+, None)
   (NUM, 1)
   (+, None)
     (NUM, 2)
     (NUM, 3)
-&gt;&gt;&gt;eval_tree(t)
+&gt;&gt;&gt; eval_tree(t)
 6</code></pre>
-
-
-
+<p>
+And thus we have an extremely basic calculator. From this foundation though, adding subtraction, multiplication, and division are simple enough, and just involve making our grammar a little more complex and then adding the operations in our <code>eval_tree</code> function, but that and the rest of the write-up of this project will have to come in a part 2.
+</p>
         </article>
         </main>
     </body>
