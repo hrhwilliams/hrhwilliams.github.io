@@ -115,11 +115,11 @@ Thus we can find the value of <span class="math inline">\(y(x+h)\)</span> from a
 &y_{n+1} = y_{n} + hf(x_{n}, y_{n}).
 \end{aligned}\]</span>
 <p>
-As a simple example, we will use this method to numerically integrate over the ODE <span class="math inline">\(y' = y\)</span>. Its exact solution is <span class="math inline">\(e^{x}\)</span>, which we can compare to the values given by Euler’s method. Starting from the initial conditions <span class="math inline">\((x_{0}, y_{0}) = (0, 1)\)</span>, and using a step size of 0.5,
+As a simple example, we will use this method to numerically integrate over the ODE <span class="math inline">\(y' = y\)</span>. Its exact solution is <span class="math inline">\(e^{x}\)</span>, which we can compare to the values given by Euler’s method. Starting from the initial conditions <span class="math inline">\((x_{0}, y_{0}) = (0, 1)\)</span>, and using a step size of 0.5 we obtain a plot of one solution.
 </p>
 <img src="/blog/images/eulers_method.png" alt="Example of using Euler's method to solve y' = y">
 <p>
-We can see that the numerical solution rapidly diverges from the exact solution. This can be remedied by using a smaller step size, or methods that are smarter about how they sample the slope of the equation. For now, we increase the step size to 0.1:
+We can see that the numerical solution rapidly diverges from the exact solution. This can be remedied by using a smaller step size, or methods that are smarter about how they sample the slope of the equation. For now, we increase the step size to 0.1 to obtain a slightly more accurate solution.
 </p>
 <img src="/blog/images/eulers_method2.png" alt="Example of using Euler's method to solve y' = y with smaller step size">
 <p>
