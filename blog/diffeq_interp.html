@@ -61,23 +61,19 @@ and displayed as a plot.
 </p>
 <h1>Ordinary Differential Equations</h1>
 <p>
-To keep things simple, I’m only talking about ordinary differential equations
-(ODEs), which are differential equations of a single variable. An ordinary
-function of a single variable expresses a relation between one value and another,
-<span class="math inline">\(y(x)\)</span>. Graphically, this gives you a bunch of points <span class="math inline">\((x, y(x))\)</span> that trace one
-curve. On the other hand, an ODE often depends on both <span class="math inline">\(x\)</span> and the current value
-of the function <span class="math inline">\(y(x)\)</span>, and for higher order ODEs, one or more derivatives of
-<span class="math inline">\(y(x)\)</span>. Given the point <span class="math inline">\((x, y(x))\)</span> for a hypothetical solution <span class="math inline">\(y(x)\)</span>, an ODE
-returns the slope at that point. I say ‘hypothetical’ because an ODE can have not
-just one function as its solution, but an entire family. For example, the family
-of solutions to the first-order ODE
+Specifically, I’ll only talk about ordinary differential equations now, which only involve a single independent variable. At a high level, an ordinary differential equation (ODE) of order <span class="math inline">\(n\)</span> is a relation between the <span class="math inline">\(n\)</span>th derivative of some function <span class="math inline">\(y(x)\)</span> and a function <span class="math inline">\(f\)</span> of the independent variable <span class="math inline">\(x\)</span> and every derivative of <span class="math inline">\(y(x)\)</span> up to but not including <span class="math inline">\(n\)</span>, <i>i.e.</i>
 </p>
 <span class="math display">\[
-\frac{\text{d}y}{\text{d}x} = -2xy
+    y^{\left(n\right)} = f\left(x, y'(x), y''(x), \dots, y^{\left(n-1\right)}(x)\right).
 \]</span>
 <p>
-can be found by multiplying both sides by <span class="math inline">\(\text{d}x\)</span>, dividing by <span class="math inline">\(y\)</span>, and
-integrating:
+For example, a first order ODE is a function of just <span class="math inline">\(x\)</span> and <span class="math inline">\(y(x)\)</span>. Finding a solution to an ordinary differential equation entails finding an expression of <span class="math inline">\(y(x)\)</span> that satisfies the relation when differentiated. Just like how taking the antiderivative of a function yields a constant term to account for losing any constants from differentiation, the solution to an ODE also yields a constant term. The full solution to an ODE is an entire family of functions. For example, the solution to the first order ODE
+</p>
+<span class="math display">\[
+    \frac{\text{d}y}{\text{d}x} = -2xy
+\]</span>
+<p>
+can be found by multiplying both sides by <span class="math inline">\(\text{d}x\)</span>, dividing by <span class="math inline">\(y\)</span>, and integrating:
 </p>
 <span class="math display">\[\begin{aligned}
 &\int \frac{\text{d}y}{y} = -\int 2x\,\text{d}x \\
@@ -86,98 +82,61 @@ integrating:
 &y = ce^{-x^{2}},
 \end{aligned}\]</span>
 <p>
-and setting the constant <span class="math inline">\(c\)</span> to any number gives you a function that solves the
-initial equation, as
+The constant term <span class="math inline">\(c\)</span> means that technically any function of the form <span class="math inline">\(f(x) = ce^{-x^{2}}\)</span> is a solution to the ODE. To verify that this is a solution to the ODE, plug in <span class="math inline">\(y=f(x)\)</span> to the original equation:
 </p>
 <span class="math display">\[
 \frac{\text{d}}{\text{d}x}\left(ce^{-x^{2}}\right) =
 -2x\left(ce^{-x^{2}}\right).
 \]</span>
 <p>
-Finding a particular solution, <i>i.e.</i> the solution <span class="math inline">\(y(x)\)</span>that goes
-through the point <span class="math inline">\((x, y(x))\)</span> involves specifying an initial value of the
-function at <span class="math inline">\(x\)</span> and solving for the constant. If you think of the ODE as itself a
-function of two variables,
-</p>
-<span class="math display">\[
-\frac{\text{d}y}{\text{d}x} = f(x, y(x)),
-\]</span>
-<p>
-then there’s a value at any point on the plane, just with the catch that the
-second variable is dependent on the first, so that once you pick a point, you are
-constrained to the curve given by <span class="math inline">\(y(x)\)</span>.
+Finding a particular solution to an <span class="math inline">\(n\)</span>th order ODE involves finding one of this family of functions that satisfies an initial condition given by <span class="math inline">\((x_{0}, y_{0}, y'_{0},\dots, y^{\left(n-1\right)}_{0})\)</span>. Thinking of just a first order ODE for now, this implies finding the curve that passes through the point on the plane <span class="math inline">\((x_{0}, y_{0})\)</span>.
 </p>
 <h1>Euler’s Method</h1>
 <p>
-Finding the exact solution of ODEs is complicated, and not every method works for
-every ODE, so it would be nice if there was some algorithm that we could use to
-at most approximate a solution given an ODE. Fortunately Euler comes to the
-rescue like always, and so there's an algorithm for doing just that named after
-him. Given one initial point <span class="math inline">\((x_{0}, y_{0})\)</span>, the slope at that point is given
-exactly. Simply draw a straight line with that slope, advance a distance <span class="math inline">\(h\)</span>, and
-then evaluate the ODE at the point <span class="math inline">\((x_{0} + h, y(x_{0} + h))\)</span>.
+Finding the exact set of solutions to an ODE as we just did is complicated; there is no method that works for every ODE of any order. If we want to find an algorithm to numerically integrate any ODE we desire, we will have to find some method that can at least approximate a solution. First, we make the observation that plugging in the point <span class="math inline">\((x_{0}, y_{0})\)</span> into the equation <span class="math inline">\(y'(x) = f(x, y(x))\)</span> gives the ‘slope’ at that point. The simplest way to approximate the curve <span class="math inline">\(y(x)\)</span> from this information would be to draw a line from that point with the slope given by the function for some distance <span class="math inline">\(h\)</span> along the <span class="math inline">\(x\)</span>-axis, find the slope at the new point, and then repeat this process for as long as we like.
 </p>
 <p>
-Formally, this method of solving, or ‘integrating’, the ODE can be derived from
-the definition of the derivative. The derivative of a function can be
-approximated by evaluating it at two points a number <span class="math inline">\(h\)</span> apart,
+This method of numerical integration was invented by Euler. It can be derived from the definition of the derivative of a function:
 </p>
 <span class="math display">\[
 \frac{\text{d}y}{\text{d}x} \approx \frac{y(x + h) - y(x)}{h},
 \]</span>
-<p>
-and of course as <span class="math inline">\(h\)</span> approaches zero, the approximation gets better and better.
-This can be rearranged to give an iterative way of solving a differential
-equation:
-</p>
-<span class="math display">\[
-y(x + h) \approx y(x) + h\frac{\text{d}y}{\text{d}x}.
-\]</span>
-<p>
-or, substituting in <span class="math inline">\(f(x, y(x))\)</span>,
-</p>
+Where <span class="math inline">\(h\)</span> is a small distance that approaches zero, thus making the approximation more and more precise. Rearranging and substituting <span class="math inline">\(f(x, y(x))\)</span> for <span class="math inline">\(y'\)</span>,
 <span class="math display">\[
 y(x + h) \approx y(x) + hf(x, y(x)).
 \]</span>
 <p>
-If each step <span class="math inline">\(h\)</span> is the same size, then we can make an inductive formula for
-solving for <span class="math inline">\(y(x)\)</span> starting from <span class="math inline">\((x_{0}, y_{0})\)</span>:
+Thus we can find the value of <span class="math inline">\(y(x+h)\)</span> from an initial value of <span class="math inline">\(y\)</span> and by plugging in the initial <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> to our differential equation. We can turn this into an inductive formula to find many various points <span class="math inline">\((x_{n}, y_{n})\)</span> as so:
 </p>
 <span class="math display">\[\begin{aligned}
 &x_{n+1} = x_{n} + h \\
 &y_{n+1} = y_{n} + hf(x_{n}, y_{n}).
 \end{aligned}\]</span>
 <p>
-This is something we can code up in Python. We’ll create the function <code>step</code> to
-take the function at a point, and return a new point after following Euler’s
-method for a distance of <code>step_size</code>, and the function <code>eulers_method</code>
-to iteratively apply <code>step</code> given initial conditions <span class="math inline">\(x_0, y_0\)</span> up to
-a final value <span class="math inline">\(x_f\)</span>. We can leave the actual <code>step_size</code> predefined
-for now, but as you might guess there is no perfect <code>step_size</code>. In fact, there’s a <a href="https://en.wikipedia.org/wiki/Adaptive_step_size">lot of math just
-to find the optimal step size</a> for an ODE, some of which I might get into in a part 2.
+Computers are much better at iterating over values than they are at applying one of many methods to an equation to find a set of solutions. In Python, we create a function for finding the next value <span class="math inline">\((x_{n+1}, y_{n+1})\)</span> from <span class="math inline">\(x_{n}, y_{n}\)</span>, <span class="math inline">\(f\)</span>, and the step size <span class="math inline">\(h\)</span>.
 </p>
-<pre><code class="language-python">def step(f, x_n, y_n, step_size):
-    return y_n + (step_size * f(x_n, y_n))
-
-
-def eulers_method(f, x_initial, y_initial, x_final):
+<pre><code class="language-python">def eulers_method(f, x_n, y_n, step_size):
+    return x_n, y_n + step_size * f(x_n, y_n)</code></pre>
+<p>
+Then we create an iterative <code>solve</code> function that takes an ODE, initial conditions, and a final value of <span class="math inline">\(x\)</span> to evaluate up to, and then returns arrays of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> points.
+</p>
+<pre><code class="language-python">def solve(f, x_initial, y_initial, x_final):
     step_size = 0.01
     x, y = [x_initial], [y_initial]
     x_n, y_n = x_initial, y_initial
 
     while x_n &lt;= x_final:
-        x_n += step_size
-        y_n = step(f, x_n, y_n, step_size)
+        x_n, y_n = eulers_method(f, x_n, y_n, step_size)
         x.append(x_n)
         y.append(y_n)
     return x, y</code></pre>
 <p>
-Then, if we store the output in two arrays, we can use Pyplot to display the solution:
+For now we can keep <code>step_size</code> constant. Taking these two arrays, we can now easily use Pyplot to display the solution:
 </p>
 <pre><code class="language-python">def f(x, y):
     return -2 * x * y
 
-x, y = eulers_method(f, x_initial=-2.5, y_initial=0.01, x_final=2.5)
+x, y = solve(f, x_initial=-2.5, y_initial=0.01, x_final=2.5)
 
 plt.plot(x, y, c='black')
 plt.grid(color='gray', linestyle=':', linewidth=1)
