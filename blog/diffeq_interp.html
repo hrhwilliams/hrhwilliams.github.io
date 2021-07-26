@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Writing A Differential Equation Interpreter, Part 1</title>
+        <title>Writing an Interpreter to Solve Differential Equations, Part 1</title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,19 +45,25 @@
         <main>
         <article>
             <header>
-                <h1 class="title">Writing A Differential Equation Interpreter, Part 1</h1>
-                <h2 class="date">July 17, 2021</h2>
+                <h1 class="title">Writing an Interpreter to Solve Differential Equations, Part 1</h1>
+                <h2 class="date">July 25, 2021</h2>
             </header>
+<p>
+I think differential equations are interesting. Many physical processes are modeled by
+them, popping up all over physics and chemistry. They provide a way to define a function in a more natural way in some contexts, such as talking about how drag works to slow you down the faster you are going, or talking about how a population might double year after year. Both of these implicitly use the language of differential equations to show some relationship.
+<span class="math display">\[
+    x''(t) = -\gamma x'(t),
+\]</span>
+where <span class="math inline">\(x''(t)\)</span> is the acceleration by drag on something moving at velocity <span class="math inline">\(x'(t)\)</span>.
+
+<span class="math display">\[
+    y'(t) = \alpha y(t),
+\]</span>
+where <span class="math inline">\(y(t)\)</span> is the population of some species and <span class="math inline">\(y'(t)\)</span> is its rate of growth.
+</p>
 
 <p>
-(Under Construction)
-I think differential equations are neat. Many physical processes are modeled by
-them. ... My interest in them lead me to explore methods for computationally
-‘solving’ for them, or more correctly, numerically integrating them, and this
-article is meant to tell the story of my journey learning more about numerical
-integration, and eventually my attempting to write a small algebra program to
-transform arbitrary equations entered by a user into something that can be solved
-and displayed as a plot.
+My interest in differential equations lead me to explore methods of computationally solving them, known as numerical integration. As I studied more about this topic I also became interested in writing a program that would allow a user to input an equation in the form shown above, and the program would perform algebra on the input if necessary and then return a solution. I hope to talk about everything I learned over the course of a few articles, this one mainly being an introduction to how differential equations can be solved by numerical integration, and an introduction to how simple mathematical expressions can be parsed and interpreted.
 </p>
 <h1>Ordinary Differential Equations</h1>
 <p>
